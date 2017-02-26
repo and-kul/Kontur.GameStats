@@ -102,8 +102,10 @@
     <Compile Include="Models\ServerGameMode.cs" />
     <Compile Include="Models\ServerMap.cs" />
     <Compile Include="Models\ServerStatistics.cs" />
+    <Compile Include="NancyModules\GetOneServerInfoModule.cs" />
     <Compile Include="NancyModules\IndexModule.cs" />
     <Compile Include="NancyModules\PutServerInfoModule.cs" />
+    <Compile Include="Info\ServerInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -112,6 +114,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

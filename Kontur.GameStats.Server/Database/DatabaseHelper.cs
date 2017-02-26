@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kontur.GameStats.Server.Info;
 using Kontur.GameStats.Server.Models;
 using Kontur.GameStats.Server.NancyModules;
 using Nancy;
@@ -23,6 +24,12 @@ namespace Kontur.GameStats.Server.Database
 
             return gameMode;
         }
+
+        public static Models.Server FindServer(string endpoint, GameStatsDbContext db)
+        {
+            return db.Servers.FirstOrDefault(s => s.Endpoint == endpoint);
+        }
+
 
         
         public static void AddNewServer(ServerInfo serverInfo, GameStatsDbContext db)
@@ -70,7 +77,7 @@ namespace Kontur.GameStats.Server.Database
         {
             using (var db = new GameStatsDbContext())
             {
-                var server = db.Servers.FirstOrDefault(s => s.Endpoint == serverInfo.Endpoint);
+                var server = FindServer(serverInfo.Endpoint, db);
 
                 if (server == null)
                 {
