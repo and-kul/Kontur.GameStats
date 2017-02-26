@@ -96,6 +96,9 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CamelCaseJsonSerializer.cs" />
     <Compile Include="Database\DatabaseHelper.cs" />
+    <Compile Include="Helpers\TimestampConverter.cs" />
+    <Compile Include="Info\MatchInfo.cs" />
+    <Compile Include="Info\ScoreInfo.cs" />
     <Compile Include="Models\GameMode.cs" />
     <Compile Include="Database\GameStatsDbContext.cs" />
     <Compile Include="Models\Map.cs" />
@@ -112,6 +115,7 @@
     <Compile Include="NancyModules\GetAllServersInfoModule.cs" />
     <Compile Include="NancyModules\GetOneServerInfoModule.cs" />
     <Compile Include="NancyModules\IndexModule.cs" />
+    <Compile Include="NancyModules\PutMatchInfoModule.cs" />
     <Compile Include="NancyModules\PutServerInfoModule.cs" />
     <Compile Include="Info\ServerInfo.cs" />
     <Compile Include="Startup.cs" />

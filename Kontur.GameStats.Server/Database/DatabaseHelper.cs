@@ -1,12 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Kontur.GameStats.Server.Helpers;
 using Kontur.GameStats.Server.Info;
 using Kontur.GameStats.Server.Models;
 
 namespace Kontur.GameStats.Server.Database
 {
-    static class DatabaseHelper
+    public static class DatabaseHelper
     {
-        public static GameMode FindGameMode(string gameModeName, GameStatsDbContext db)
+        public static GameMode FindOrAddGameMode(string gameModeName, GameStatsDbContext db)
         {
             var gameMode = db.GameModes.FirstOrDefault(gm => gm.Name == gameModeName);
 
@@ -18,6 +20,42 @@ namespace Kontur.GameStats.Server.Database
 
             return gameMode;
         }
+
+
+        public static Map FindOrAddMap(string mapName, GameStatsDbContext db)
+        {
+            var map = db.Maps.FirstOrDefault(m => m.Name == mapName);
+
+            if (map != null) return map;
+
+            map = new Map { Name = mapName };
+            db.Maps.Add(map);
+            db.SaveChanges();
+
+            return map;
+        }
+
+
+        public static Player FindOrAddPlayer(string playerName, GameStatsDbContext db)
+        {
+            var playerNameLowerCase = playerName.ToLowerInvariant();
+
+            var player = db.Players.FirstOrDefault(p => p.NameLowerCase == playerNameLowerCase);
+
+            if (player != null) return player;
+
+            player = new Player
+            {
+                NameLowerCase = playerNameLowerCase,
+                Statistics = new PlayerStatistics()
+            };
+            db.Players.Add(player);
+            db.SaveChanges();
+
+            return player;
+        }
+
+
 
         public static Models.Server FindServer(string endpoint, GameStatsDbContext db)
         {
@@ -37,7 +75,7 @@ namespace Kontur.GameStats.Server.Database
 
             foreach (var gameModeName in serverInfo.GameModes)
             {
-                var gameMode = FindGameMode(gameModeName, db);
+                var gameMode = FindOrAddGameMode(gameModeName, db);
 
                 var serverGameMode = new ServerGameMode
                 {
@@ -79,5 +117,48 @@ namespace Kontur.GameStats.Server.Database
                 UpdateExistingServer(server, serverInfo, db);
             }
         }
+
+
+        public static Match AddNewMatch(MatchInfo matchInfo, Models.Server server, GameStatsDbContext db)
+        {
+            var match = new Match
+            {
+                Server = server,
+                Timestamp = TimestampConverter.Parse(matchInfo.Timestamp),
+
+                Map = FindOrAddMap(matchInfo.Map, db),
+                GameMode = FindOrAddGameMode(matchInfo.GameMode, db),
+
+                FragLimit = matchInfo.FragLimit,
+                TimeLimit = matchInfo.TimeLimit,
+                TimeElapsed = matchInfo.TimeElapsed
+            };
+            
+            db.Matches.Add(match);
+
+            foreach (var scoreInfo in matchInfo.Scoreboard)
+            {
+                var score = new Score
+                {
+                    Match = match,
+                    Position = scoreInfo.Position,
+                    Player = FindOrAddPlayer(scoreInfo.Name, db),
+                    Frags = scoreInfo.Frags,
+                    Kills = scoreInfo.Kills,
+                    Deaths = scoreInfo.Deaths
+                };
+
+                db.Scores.Add(score);
+            }
+
+            match.IsIncludedInStatistics = false;
+
+            db.SaveChanges();
+
+            return match;
+        }
+
+
+
     }
 }
