@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Database\DatabaseHelper.cs" />
     <Compile Include="Models\GameMode.cs" />
     <Compile Include="Database\GameStatsDbContext.cs" />
     <Compile Include="Models\Map.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Models\ServerMap.cs" />
     <Compile Include="Models\ServerStatistics.cs" />
     <Compile Include="NancyModules\IndexModule.cs" />
+    <Compile Include="NancyModules\PutServerInfoModule.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
