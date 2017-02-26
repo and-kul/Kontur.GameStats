@@ -1,5 +1,6 @@
 ﻿using System;
 using Fclp;
+using Kontur.GameStats.Server.Database;
 using Microsoft.Owin.Hosting;
 
 namespace Kontur.GameStats.Server
@@ -23,7 +24,7 @@ namespace Kontur.GameStats.Server
 
             if (commandLineParser.Parse(args).HelpCalled)
                 return;
-
+            
             RunServer(commandLineParser.Object);
         }
 
