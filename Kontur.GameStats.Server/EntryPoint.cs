@@ -1,5 +1,6 @@
 ﻿using System;
 using Fclp;
+using Microsoft.Owin.Hosting;
 
 namespace Kontur.GameStats.Server
 {
@@ -28,12 +29,14 @@ namespace Kontur.GameStats.Server
 
         private static void RunServer(Options options)
         {
-            using (var server = new StatServer())
+            using (WebApp.Start<Startup>(options.Prefix))
             {
-                server.Start(options.Prefix);
-
-                Console.ReadKey(true);
+                Console.WriteLine($"Running on {options.Prefix}");
+                Console.WriteLine("Press enter to exit");
+                Console.ReadLine();
             }
+
+            
         }
 
         private class Options
