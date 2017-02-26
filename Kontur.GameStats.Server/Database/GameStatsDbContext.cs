@@ -12,6 +12,18 @@ namespace Kontur.GameStats.Server.Database
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Player>()
+                .HasRequired(p => p.Statistics)
+                .WithRequiredPrincipal(ps => ps.Player)
+                .WillCascadeOnDelete(true);
+            
+            modelBuilder.Entity<Models.Server>()
+                .HasRequired(s => s.Statistics)
+                .WithRequiredPrincipal(ss => ss.Server)
+                .WillCascadeOnDelete(true);
+
+
+
             modelBuilder.Conventions.Remove<ForeignKeyIndexConvention>();
 
             var sqliteDbInitializer = new SqliteDropCreateDatabaseWhenModelChanges<GameStatsDbContext>(modelBuilder);
