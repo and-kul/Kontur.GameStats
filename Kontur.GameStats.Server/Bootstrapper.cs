@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Kontur.GameStats.Server.Info;
 using Nancy;
 using Nancy.Bootstrapper;
+using Nancy.Json;
 using Nancy.TinyIoc;
+using Newtonsoft.Json;
 
 namespace Kontur.GameStats.Server
 {
@@ -11,6 +14,12 @@ namespace Kontur.GameStats.Server
         //protected override DiagnosticsConfiguration DiagnosticsConfiguration
         //    => new DiagnosticsConfiguration {Password = @"Innopolis"};
 
+        protected override void ConfigureApplicationContainer(TinyIoCContainer container)
+        {
+            base.ConfigureApplicationContainer(container);
+
+            container.Register<JsonSerializer, CamelCaseJsonSerializer>();
+        }
 
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
@@ -21,7 +30,7 @@ namespace Kontur.GameStats.Server
 
                 return null;
             };
-
+            
 
             //StaticConfiguration.EnableRequestTracing = true;
             //StaticConfiguration.DisableErrorTraces = false;

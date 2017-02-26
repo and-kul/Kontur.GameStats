@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Kontur.GameStats.Server.Info;
 using Kontur.GameStats.Server.Models;
-using Kontur.GameStats.Server.NancyModules;
-using Nancy;
 
 namespace Kontur.GameStats.Server.Database
 {
@@ -18,7 +12,7 @@ namespace Kontur.GameStats.Server.Database
 
             if (gameMode != null) return gameMode;
 
-            gameMode = new GameMode { Name = gameModeName };
+            gameMode = new GameMode {Name = gameModeName};
             db.GameModes.Add(gameMode);
             db.SaveChanges();
 
@@ -31,7 +25,6 @@ namespace Kontur.GameStats.Server.Database
         }
 
 
-        
         public static void AddNewServer(ServerInfo serverInfo, GameStatsDbContext db)
         {
             var server = new Models.Server
@@ -60,7 +53,7 @@ namespace Kontur.GameStats.Server.Database
 
 
         public static void RemoveServer(Models.Server server, GameStatsDbContext db)
-        { 
+        {
             db.Servers.Remove(server);
             db.SaveChanges();
         }
@@ -73,27 +66,18 @@ namespace Kontur.GameStats.Server.Database
         }
 
 
-        public static void AddOrUpdateServer(ServerInfo serverInfo)
+        public static void AddOrUpdateServer(ServerInfo serverInfo, GameStatsDbContext db)
         {
-            using (var db = new GameStatsDbContext())
-            {
-                var server = FindServer(serverInfo.Endpoint, db);
+            var server = FindServer(serverInfo.Endpoint, db);
 
-                if (server == null)
-                {
-                    AddNewServer(serverInfo, db);
-                }
-                else
-                {
-                    UpdateExistingServer(server, serverInfo, db);
-                }
-                
+            if (server == null)
+            {
+                AddNewServer(serverInfo, db);
+            }
+            else
+            {
+                UpdateExistingServer(server, serverInfo, db);
             }
         }
-
-
-
-
-
     }
 }

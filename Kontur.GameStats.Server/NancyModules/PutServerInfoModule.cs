@@ -13,8 +13,11 @@ namespace Kontur.GameStats.Server.NancyModules
             {
                 var serverInfo = this.Bind<ServerInfo>();
 
-                DatabaseHelper.AddOrUpdateServer(serverInfo); 
-
+                using (var db = new GameStatsDbContext())
+                {
+                    DatabaseHelper.AddOrUpdateServer(serverInfo, db);
+                }
+                
                 return HttpStatusCode.OK;
             };
         }

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Newtonsoft.Json;
 
 namespace Kontur.GameStats.Server.Info
 {
@@ -15,8 +16,11 @@ namespace Kontur.GameStats.Server.Info
             GameModes = server.GameModes.Select(gm => gm.GameMode.Name).ToArray();
         }
 
+        [JsonIgnore]
         public string Endpoint;
+
         public string Name;
         public string[] GameModes;
+
     }
 }
