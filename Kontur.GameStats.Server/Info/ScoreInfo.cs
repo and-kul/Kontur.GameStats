@@ -1,18 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Kontur.GameStats.Server.Models;
 using Newtonsoft.Json;
 
 namespace Kontur.GameStats.Server.Info
 {
     public class ScoreInfo
     {
+        public ScoreInfo()
+        {
+        }
 
+        public ScoreInfo(Score score)
+        {
+            Position = score.Position;
+            Name = score.Player.NameLowerCase;
+            Frags = score.Frags;
+            Kills = score.Kills;
+            Deaths = score.Deaths;
+        }
 
-        [JsonIgnore]
-        public int Position;
+        [JsonIgnore] public int Position;
 
         public string Name;
 

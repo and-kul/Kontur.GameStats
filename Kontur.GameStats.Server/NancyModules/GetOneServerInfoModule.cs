@@ -18,10 +18,8 @@ namespace Kontur.GameStats.Server.NancyModules
 
                     if (server == null)
                         return HttpStatusCode.NotFound;
-
-                    var result = new ServerInfo(server);
                     
-                    return result;
+                    return new ServerInfo(server);
                 }
                 
             };

@@ -1,18 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using Kontur.GameStats.Server.Models;
+using Newtonsoft.Json;
 
 namespace Kontur.GameStats.Server.Info
 {
     public class MatchInfo
     {
+        public MatchInfo()
+        {
+        }
 
+        public MatchInfo(Match match)
+        {
+            Map = match.Map.Name;
+            GameMode = match.GameMode.Name;
 
+            FragLimit = match.FragLimit;
+            TimeLimit = match.TimeLimit;
+            TimeElapsed = match.TimeElapsed;
 
-        public string Endpoint;
-        public string Timestamp;
+            Scoreboard = match.Scoreboard
+                .OrderBy(score => score.Position)
+                .AsEnumerable()
+                .Select(score => new ScoreInfo(score))
+                .ToArray();
+        }
+
+        [JsonIgnore] public string Endpoint;
+        [JsonIgnore] public string Timestamp;
 
         public string Map;
         public string GameMode;
@@ -22,7 +37,5 @@ namespace Kontur.GameStats.Server.Info
         public double TimeElapsed;
 
         public ScoreInfo[] Scoreboard;
-
-
     }
 }

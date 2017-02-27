@@ -62,6 +62,11 @@ namespace Kontur.GameStats.Server.Database
             return db.Servers.FirstOrDefault(s => s.Endpoint == endpoint);
         }
 
+        public static Match FindMatch(Models.Server server, DateTime timestamp, GameStatsDbContext db)
+        {
+            return db.Matches.FirstOrDefault(m => m.Timestamp == timestamp && m.ServerId == server.Id);
+        }
+
 
         public static void AddNewServer(ServerInfo serverInfo, GameStatsDbContext db)
         {
@@ -157,6 +162,10 @@ namespace Kontur.GameStats.Server.Database
 
             return match;
         }
+
+
+        
+
 
 
 

@@ -113,6 +113,7 @@
     <Compile Include="Models\ServerMap.cs" />
     <Compile Include="Models\ServerStatistics.cs" />
     <Compile Include="NancyModules\GetAllServersInfoModule.cs" />
+    <Compile Include="NancyModules\GetMatchInfoModule.cs" />
     <Compile Include="NancyModules\GetOneServerInfoModule.cs" />
     <Compile Include="NancyModules\IndexModule.cs" />
     <Compile Include="NancyModules\PutMatchInfoModule.cs" />

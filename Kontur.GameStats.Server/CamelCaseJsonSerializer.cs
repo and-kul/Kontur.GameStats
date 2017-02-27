@@ -12,8 +12,10 @@ namespace Kontur.GameStats.Server
     {
         public CamelCaseJsonSerializer()
         {
-            this.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            this.Formatting = Formatting.Indented;
+            ContractResolver = new CamelCasePropertyNamesContractResolver();
+            DateFormatHandling = DateFormatHandling.IsoDateFormat;
+            Formatting = Formatting.Indented;
+            
         }
 
 
