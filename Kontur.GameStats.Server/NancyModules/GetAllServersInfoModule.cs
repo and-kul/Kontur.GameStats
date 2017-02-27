@@ -21,7 +21,7 @@ namespace Kontur.GameStats.Server.NancyModules
                         Info = new
                         {
                             Name = s.Name,
-                            GameModes = s.GameModes.Select(gm => gm.GameMode.Name)
+                            GameModes = s.AvailableGameModes.Select(gm => gm.Name)
                         }
                     }).ToArray();
                 }

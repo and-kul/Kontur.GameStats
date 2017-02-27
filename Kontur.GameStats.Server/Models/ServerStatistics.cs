@@ -18,7 +18,9 @@ namespace Kontur.GameStats.Server.Models
  
         public int SumOfPopulations { get; set; }
 
-        public virtual ICollection<ServerMap> Maps { get; set; } = new List<ServerMap>();
+        public virtual ICollection<ServerGameMode> GameModesStats { get; set; } = new List<ServerGameMode>();
+
+        public virtual ICollection<ServerMap> MapsStats { get; set; } = new List<ServerMap>();
         
     }
 }

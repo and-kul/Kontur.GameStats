@@ -22,8 +22,17 @@ namespace Kontur.GameStats.Server.Database
                 .WithRequiredPrincipal(ss => ss.Server)
                 .WillCascadeOnDelete(true);
 
+            modelBuilder.Entity<Models.Server>()
+                .HasMany(s => s.AvailableGameModes)
+                .WithMany()
+                .Map(m =>
+                {
+                    m.ToTable("GameModesAvailableOnServer");
+                    m.MapLeftKey("ServerId");
+                    m.MapRightKey("GameModeId");
+                });
 
-
+            
             modelBuilder.Conventions.Remove<ForeignKeyIndexConvention>();
 
             var sqliteDbInitializer = new SqliteDropCreateDatabaseWhenModelChanges<GameStatsDbContext>(modelBuilder);

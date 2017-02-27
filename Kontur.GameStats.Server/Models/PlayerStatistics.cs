@@ -36,9 +36,9 @@ namespace Kontur.GameStats.Server.Models
             protected set { }
         }
 
-        public virtual ICollection<PlayerServer> Servers { get; set; } = new List<PlayerServer>();
+        public virtual ICollection<PlayerServer> ServersStats { get; set; } = new List<PlayerServer>();
 
-        public virtual ICollection<PlayerGameMode> GameModes { get; set; } = new List<PlayerGameMode>();
+        public virtual ICollection<PlayerGameMode> GameModesStats { get; set; } = new List<PlayerGameMode>();
 
     }
 }

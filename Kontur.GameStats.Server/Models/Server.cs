@@ -13,7 +13,7 @@ namespace Kontur.GameStats.Server.Models
 
         public string Name { get; set; }
 
-        public virtual ICollection<ServerGameMode> GameModes { get; set; } = new List<ServerGameMode>();
+        public virtual ICollection<GameMode> AvailableGameModes { get; set; } = new List<GameMode>();
 
         public virtual ServerStatistics Statistics { get; set; }
 

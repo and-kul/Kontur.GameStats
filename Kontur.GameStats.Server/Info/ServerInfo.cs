@@ -13,7 +13,7 @@ namespace Kontur.GameStats.Server.Info
         {
             Endpoint = server.Endpoint;
             Name = server.Name;
-            GameModes = server.GameModes.Select(gm => gm.GameMode.Name).ToArray();
+            GameModes = server.AvailableGameModes.Select(gm => gm.Name).ToArray();
         }
 
         [JsonIgnore] public string Endpoint;

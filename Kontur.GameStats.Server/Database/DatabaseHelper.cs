@@ -81,31 +81,25 @@ namespace Kontur.GameStats.Server.Database
             foreach (var gameModeName in serverInfo.GameModes)
             {
                 var gameMode = FindOrAddGameMode(gameModeName, db);
-
-                var serverGameMode = new ServerGameMode
-                {
-                    Server = server,
-                    GameMode = gameMode
-                };
-
-                db.ServersGameModes.Add(serverGameMode);
+                server.AvailableGameModes.Add(gameMode);
             }
 
             db.SaveChanges();
         }
 
-
-        public static void RemoveServer(Models.Server server, GameStatsDbContext db)
-        {
-            db.Servers.Remove(server);
-            db.SaveChanges();
-        }
-
-
+        
         public static void UpdateExistingServer(Models.Server server, ServerInfo newServerInfo, GameStatsDbContext db)
         {
-            RemoveServer(server, db);
-            AddNewServer(newServerInfo, db);
+            server.Name = newServerInfo.Name;
+            server.AvailableGameModes.Clear();
+
+            foreach (var gameModeName in newServerInfo.GameModes)
+            {
+                var gameMode = FindOrAddGameMode(gameModeName, db);
+                server.AvailableGameModes.Add(gameMode);
+            }
+
+            db.SaveChanges();
         }
 
 
