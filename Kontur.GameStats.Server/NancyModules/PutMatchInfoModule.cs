@@ -15,17 +15,12 @@ namespace Kontur.GameStats.Server.NancyModules
     {
         public PutMatchInfoModule()
         {
-            Put["/servers/{endpoint}/matches/{timestamp}"] = parameters =>
+            Put["/servers/{endpoint}/matches/{timestamp:datetime}"] = parameters =>
             {
                 var matchInfo = this.Bind<MatchInfo>();
                 for (var i = 0; i < matchInfo.Scoreboard.Length; ++i)
                 {
                     matchInfo.Scoreboard[i].Position = i;
-                }
-
-                if (!TimestampConverter.IsCorrectTimestamp(matchInfo.Timestamp))
-                {
-                    return HttpStatusCode.BadRequest;
                 }
 
 

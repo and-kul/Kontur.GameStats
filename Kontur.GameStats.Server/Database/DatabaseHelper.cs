@@ -129,7 +129,7 @@ namespace Kontur.GameStats.Server.Database
             var match = new Match
             {
                 Server = server,
-                Timestamp = TimestampConverter.Parse(matchInfo.Timestamp),
+                Timestamp = matchInfo.Timestamp,
 
                 Map = FindOrAddMap(matchInfo.Map, db),
                 GameMode = FindOrAddGameMode(matchInfo.GameMode, db),

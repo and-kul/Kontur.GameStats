@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Kontur.GameStats.Server.Models;
 using Newtonsoft.Json;
 
@@ -12,6 +13,9 @@ namespace Kontur.GameStats.Server.Info
 
         public MatchInfo(Match match)
         {
+            Endpoint = match.Server.Endpoint;
+            Timestamp = match.Timestamp.ToUniversalTime();
+
             Map = match.Map.Name;
             GameMode = match.GameMode.Name;
 
@@ -27,7 +31,7 @@ namespace Kontur.GameStats.Server.Info
         }
 
         [JsonIgnore] public string Endpoint;
-        [JsonIgnore] public string Timestamp;
+        [JsonIgnore] public DateTime Timestamp;
 
         public string Map;
         public string GameMode;

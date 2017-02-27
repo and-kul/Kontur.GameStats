@@ -1,4 +1,5 @@
-﻿using Kontur.GameStats.Server.Database;
+﻿using System;
+using Kontur.GameStats.Server.Database;
 using Kontur.GameStats.Server.Helpers;
 using Kontur.GameStats.Server.Info;
 using Nancy;
@@ -9,14 +10,11 @@ namespace Kontur.GameStats.Server.NancyModules
     {
         public GetMatchInfoModule()
         {
-            Get["/servers/{endpoint}/matches/{timestamp}"] = parameters =>
+            Get["/servers/{endpoint}/matches/{timestamp:datetime}"] = parameters =>
             {
                 var endpoint = parameters.endpoint;
-                var timestampString = parameters.timestamp;
-                if (!TimestampConverter.IsCorrectTimestamp(timestampString))
-                    return HttpStatusCode.BadRequest;
-
-                var timestamp = TimestampConverter.Parse(timestampString);
+                var timestamp = parameters.timestamp;
+                
 
                 using (var db = new GameStatsDbContext())
                 {
