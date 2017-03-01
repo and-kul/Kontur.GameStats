@@ -45,12 +45,12 @@ namespace Kontur.GameStats.Server.Database
         public DbSet<Map> Maps { get; set; }
 
         public DbSet<PlayerStatistics> PlayersStatistics { get; set; }
-        public DbSet<PlayerGameMode> PlayersGameModes { get; set; }
-        public DbSet<PlayerServer> PlayersServers { get; set; }
+        public DbSet<PlayerGameModeStats> PlayersGameModes { get; set; }
+        public DbSet<PlayerServerStats> PlayersServers { get; set; }
    
         public DbSet<ServerStatistics> ServersStatistics { get; set; }
-        public DbSet<ServerGameMode> ServersGameModes { get; set; }
-        public DbSet<ServerMap> ServersMaps { get; set; }
+        public DbSet<ServerGameModeStats> ServersGameModes { get; set; }
+        public DbSet<ServerMapStats> ServersMaps { get; set; }
         
         public DbSet<Match> Matches { get; set; }
         public DbSet<Score> Scores { get; set; }

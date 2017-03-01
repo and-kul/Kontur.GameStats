@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Kontur.GameStats.Server.Models
 {
     [Table("ServersGameModes")]
-    public class ServerGameMode
+    public class ServerGameModeStats
     {
         [Key, Column(Order = 0)]
         [Index("IX_ServersGameModes_ServerIdAndMathesPlayed", 0)]

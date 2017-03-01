@@ -104,13 +104,13 @@
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Match.cs" />
     <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\PlayerGameMode.cs" />
-    <Compile Include="Models\PlayerServer.cs" />
+    <Compile Include="Models\PlayerGameModeStats.cs" />
+    <Compile Include="Models\PlayerServerStats.cs" />
     <Compile Include="Models\PlayerStatistics.cs" />
     <Compile Include="Models\Score.cs" />
     <Compile Include="Models\Server.cs" />
-    <Compile Include="Models\ServerGameMode.cs" />
-    <Compile Include="Models\ServerMap.cs" />
+    <Compile Include="Models\ServerGameModeStats.cs" />
+    <Compile Include="Models\ServerMapStats.cs" />
     <Compile Include="Models\ServerStatistics.cs" />
     <Compile Include="NancyModules\GetAllServersInfoModule.cs" />
     <Compile Include="NancyModules\GetMatchInfoModule.cs" />
