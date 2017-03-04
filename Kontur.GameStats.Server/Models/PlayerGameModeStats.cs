@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kontur.GameStats.Server.Models
 {
-    [Table("PlayersGameModes")]
+    [Table("PlayerGameModeStats")]
     public class PlayerGameModeStats
     {
         [Key, Column(Order = 0)]
-        [Index("IX_PlayersGameModes_PlayerIdAndMatchesPlayed", 0)]
+        [Index("IX_PlayerGameModeStats_PlayerIdAndMatchesPlayed", 0)]
         public int PlayerId { get; set; }
         public virtual Player Player { get; set; }
 
@@ -15,7 +15,7 @@ namespace Kontur.GameStats.Server.Models
         public int GameModeId { get; set; }
         public virtual GameMode GameMode { get; set; }
 
-        [Index("IX_PlayersGameModes_PlayerIdAndMatchesPlayed", 1)]
+        [Index("IX_PlayerGameModeStats_PlayerIdAndMatchesPlayed", 1)]
         public int MatchesPlayed { get; set; }
 
     }
