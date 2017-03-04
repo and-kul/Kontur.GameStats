@@ -99,6 +99,8 @@
     <Compile Include="Helpers\TimestampConverter.cs" />
     <Compile Include="Info\MatchInfo.cs" />
     <Compile Include="Info\ScoreInfo.cs" />
+    <Compile Include="Models\DatePlayerStats.cs" />
+    <Compile Include="Models\DateServerStats.cs" />
     <Compile Include="Models\GameMode.cs" />
     <Compile Include="Database\GameStatsDbContext.cs" />
     <Compile Include="Models\Map.cs" />

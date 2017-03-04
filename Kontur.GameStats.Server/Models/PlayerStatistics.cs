@@ -19,9 +19,7 @@ namespace Kontur.GameStats.Server.Models
         
         public int SumOfScoreboardPercents { get; set; }
 
-        //public int? LastMatchId { get; set; }
-
-        //public virtual Match LastMatch { get; set; }
+        public DateTime FirstMatchTimestamp { get; set; }
 
         public DateTime LastMatchTimestamp { get; set; }
 
@@ -39,6 +37,8 @@ namespace Kontur.GameStats.Server.Models
         public virtual ICollection<PlayerServerStats> ServersStats { get; set; } = new List<PlayerServerStats>();
 
         public virtual ICollection<PlayerGameModeStats> GameModesStats { get; set; } = new List<PlayerGameModeStats>();
+
+        public virtual ICollection<DatePlayerStats> GameDays { get; set; } = new List<DatePlayerStats>();
 
     }
 }
