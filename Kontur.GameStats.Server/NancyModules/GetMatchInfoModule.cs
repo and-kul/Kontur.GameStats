@@ -12,10 +12,9 @@ namespace Kontur.GameStats.Server.NancyModules
         {
             Get["/servers/{endpoint}/matches/{timestamp:datetime}"] = parameters =>
             {
-                var endpoint = parameters.endpoint;
-                var timestamp = parameters.timestamp;
+                string endpoint = parameters.endpoint;
+                var timestamp = ((DateTime)parameters.timestamp).ToUniversalTime();
                 
-
                 using (var db = new GameStatsDbContext())
                 {
                     var server = DatabaseHelper.FindServer(endpoint, db);

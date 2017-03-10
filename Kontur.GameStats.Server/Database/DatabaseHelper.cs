@@ -123,7 +123,7 @@ namespace Kontur.GameStats.Server.Database
             var match = new Match
             {
                 Server = server,
-                Timestamp = matchInfo.Timestamp,
+                Timestamp = matchInfo.Timestamp.ToUniversalTime(),
 
                 Map = FindOrAddMap(matchInfo.Map, db),
                 GameMode = FindOrAddGameMode(matchInfo.GameMode, db),
@@ -150,7 +150,7 @@ namespace Kontur.GameStats.Server.Database
                 db.Scores.Add(score);
             }
 
-            match.IsIncludedInStatistics = false;
+            match.IsProcessedForStatistics = false;
 
             db.SaveChanges();
 
@@ -158,6 +158,10 @@ namespace Kontur.GameStats.Server.Database
         }
 
 
+        public static Match[] GetNotProcessedMatches(GameStatsDbContext db)
+        {
+            return db.Matches.Where(m => !m.IsProcessedForStatistics).OrderBy(m => m.Timestamp).ToArray();
+        }
         
 
 

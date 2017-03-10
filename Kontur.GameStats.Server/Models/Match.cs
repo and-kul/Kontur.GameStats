@@ -14,11 +14,11 @@ namespace Kontur.GameStats.Server.Models
         public virtual Server Server { get; set; }
 
         [Index("IX_Matches_TimestampAndServerId", 0)]
-        [Index("IX_Matches_IsIncludedInStatisticsAndTimestamp", 1)]
+        [Index("IX_Matches_IsProcessedForStatisticsAndTimestamp", 1)]
         public DateTime Timestamp { get; set; }
 
-        [Index("IX_Matches_IsIncludedInStatisticsAndTimestamp", 0)]
-        public bool IsIncludedInStatistics { get; set; }
+        [Index("IX_Matches_IsProcessedForStatisticsAndTimestamp", 0)]
+        public bool IsProcessedForStatistics { get; set; }
 
         public int MapId { get; set; }
         public virtual Map Map { get; set; }
