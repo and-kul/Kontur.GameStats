@@ -8,7 +8,9 @@ namespace Kontur.GameStats.Server.Database
     public class GameStatsDbContext : DbContext
     {
         public GameStatsDbContext()
-            : base("DefaultConnection") { }
+            : base("DefaultConnection")
+        {
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -16,7 +18,7 @@ namespace Kontur.GameStats.Server.Database
                 .HasRequired(p => p.Statistics)
                 .WithRequiredPrincipal(ps => ps.Player)
                 .WillCascadeOnDelete(true);
-            
+
             modelBuilder.Entity<Models.Server>()
                 .HasRequired(s => s.Statistics)
                 .WithRequiredPrincipal(ss => ss.Server)
@@ -32,7 +34,7 @@ namespace Kontur.GameStats.Server.Database
                     m.MapRightKey("GameModeId");
                 });
 
-            
+
             modelBuilder.Conventions.Remove<ForeignKeyIndexConvention>();
 
             var sqliteDbInitializer = new SqliteDropCreateDatabaseWhenModelChanges<GameStatsDbContext>(modelBuilder);
@@ -47,12 +49,16 @@ namespace Kontur.GameStats.Server.Database
         public DbSet<PlayerStatistics> PlayersStatistics { get; set; }
         public DbSet<PlayerGameModeStats> PlayersGameModes { get; set; }
         public DbSet<PlayerServerStats> PlayersServers { get; set; }
-   
+
         public DbSet<ServerStatistics> ServersStatistics { get; set; }
         public DbSet<ServerGameModeStats> ServersGameModes { get; set; }
         public DbSet<ServerMapStats> ServersMaps { get; set; }
-        
+
         public DbSet<Match> Matches { get; set; }
         public DbSet<Score> Scores { get; set; }
+
+        public DbSet<DateServerStats> DateServerStats { get; set; }
+        public DbSet<DatePlayerStats> DatePlayerStats { get; set; }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Fclp;
 using Kontur.GameStats.Server.Database;
+using Kontur.GameStats.Server.StatisticsManagement;
 using Microsoft.Owin.Hosting;
 
 namespace Kontur.GameStats.Server
@@ -30,6 +31,7 @@ namespace Kontur.GameStats.Server
 
         private static void RunServer(Options options)
         {
+            StatisticsProcessor.Start();
             using (WebApp.Start<Startup>(options.Prefix))
             {
                 Console.WriteLine($"Running on {options.Prefix}");

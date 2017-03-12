@@ -21,7 +21,7 @@ namespace Kontur.GameStats.Server.Models
 
         public DateTime FirstMatchTimestamp { get; set; }
 
-        public DateTime LastMatchTimestamp { get; set; }
+        //public DateTime LastMatchTimestamp { get; set; }
 
         public virtual ICollection<ServerGameModeStats> GameModesStats { get; set; } = new List<ServerGameModeStats>();
 

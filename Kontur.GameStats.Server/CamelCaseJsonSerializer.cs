@@ -9,7 +9,7 @@ namespace Kontur.GameStats.Server
         {
             ContractResolver = new CamelCasePropertyNamesContractResolver();
             DateFormatHandling = DateFormatHandling.IsoDateFormat;
-            DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
             Formatting = Formatting.Indented;
             
         }
