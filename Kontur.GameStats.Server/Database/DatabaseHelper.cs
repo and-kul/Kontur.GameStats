@@ -311,5 +311,18 @@ namespace Kontur.GameStats.Server.Database
         }
 
 
+        public static BestPlayer FindOrAddBestPlayer(Player player, GameStatsDbContext db)
+        {
+            var bestPlayer = db.BestPlayers.FirstOrDefault(best => best.PlayerId == player.Id);
+
+            if (bestPlayer != null) return bestPlayer;
+
+            bestPlayer = new BestPlayer { Player = player };
+            db.BestPlayers.Add(bestPlayer);
+            db.SaveChanges();
+
+            return bestPlayer;
+        }
+
     }
 }

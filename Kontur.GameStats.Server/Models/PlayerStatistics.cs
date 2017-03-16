@@ -12,8 +12,7 @@ namespace Kontur.GameStats.Server.Models
         public int PlayerId { get; set; }
 
         public virtual Player Player { get; set; }
-
-        [Index("IX_PlayersStatistics_TotalMatchesPlayedAndKillToDeathRatio", 0)]
+        
         public int TotalMatchesPlayed { get; set; }
 
         public int TotalMatchesWon { get; set; }
@@ -28,7 +27,7 @@ namespace Kontur.GameStats.Server.Models
 
         public int Deaths { get; set; }
 
-        [Index("IX_PlayersStatistics_TotalMatchesPlayedAndKillToDeathRatio", 1)]
+        [NotMapped]
         public double KillToDeathRatio
         {
             get { return Deaths == 0 ? Double.PositiveInfinity : (double) Kills / Deaths; }

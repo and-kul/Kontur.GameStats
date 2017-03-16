@@ -1,19 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D0D79B41-39D6-496A-B74A-C8DFDDF4D7B8}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{5947FBA7-6039-4871-AD4D-4F20FA5AFB65}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kontur.GameStats.Server</RootNamespace>
-    <AssemblyName>Kontur.GameStats.Server</AssemblyName>
+    <RootNamespace>Tests</RootNamespace>
+    <AssemblyName>Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +22,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,42 +31,30 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsQuery, Version=1.3.3.249, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="FluentCommandLineParser, Version=1.4.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentCommandLineParser.1.4.3\lib\net35\FluentCommandLineParser.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Host.HttpListener, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.3.0.1\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin.Hosting, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Hosting.3.0.1\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
-    </Reference>
     <Reference Include="Nancy, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
-    </Reference>
-    <Reference Include="Nancy.Owin, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Nancy.Owin.1.4.1\lib\net40\Nancy.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Serialization.JsonNet, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.Serialization.JsonNet.1.4.1\lib\net40\Nancy.Serialization.JsonNet.dll</HintPath>
     </Reference>
+    <Reference Include="Nancy.Testing, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Testing.1.4.1\lib\net40\Nancy.Testing.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="SQLite.CodeFirst, Version=1.3.0.17, Culture=neutral, PublicKeyToken=eb96ba0a78d831a7, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLite.CodeFirst.1.3.0.17\lib\net45\SQLite.CodeFirst.dll</HintPath>
@@ -93,56 +79,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bootstrapper.cs" />
-    <Compile Include="CamelCaseJsonSerializer.cs" />
-    <Compile Include="Database\DatabaseHelper.cs" />
-    <Compile Include="Helpers\TimeHelper.cs" />
-    <Compile Include="Info\MatchInfo.cs" />
-    <Compile Include="Info\ScoreInfo.cs" />
-    <Compile Include="Models\BestPlayer.cs" />
-    <Compile Include="Models\DatePlayerStats.cs" />
-    <Compile Include="Models\DateServerStats.cs" />
-    <Compile Include="Models\GameMode.cs" />
-    <Compile Include="Database\GameStatsDbContext.cs" />
-    <Compile Include="Models\Map.cs" />
-    <Compile Include="Models\Match.cs" />
-    <Compile Include="Models\Player.cs" />
-    <Compile Include="Models\PlayerGameModeStats.cs" />
-    <Compile Include="Models\PlayerServerStats.cs" />
-    <Compile Include="Models\PlayerStatistics.cs" />
-    <Compile Include="Models\Score.cs" />
-    <Compile Include="Models\Server.cs" />
-    <Compile Include="Models\ServerGameModeStats.cs" />
-    <Compile Include="Models\ServerMapStats.cs" />
-    <Compile Include="Models\ServerStatistics.cs" />
-    <Compile Include="NancyModules\GetAllServersInfoModule.cs" />
-    <Compile Include="NancyModules\GetBestPlayers.cs" />
-    <Compile Include="NancyModules\GetMatchInfoModule.cs" />
-    <Compile Include="NancyModules\GetOneServerInfoModule.cs" />
-    <Compile Include="NancyModules\GetPlayerStats.cs" />
-    <Compile Include="NancyModules\GetPopularServers.cs" />
-    <Compile Include="NancyModules\GetRecentMatches.cs" />
-    <Compile Include="NancyModules\GetServerStats.cs" />
-    <Compile Include="NancyModules\IndexModule.cs" />
-    <Compile Include="NancyModules\PutMatchInfoModule.cs" />
-    <Compile Include="NancyModules\PutServerInfoModule.cs" />
-    <Compile Include="Info\ServerInfo.cs" />
-    <Compile Include="Reports\PopularServer.cs" />
-    <Compile Include="Reports\RecentMatch.cs" />
-    <Compile Include="Startup.cs" />
-    <Compile Include="EntryPoint.cs" />
+    <Compile Include="IndexTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StatisticsManagement\StatisticsProcessor.cs" />
-    <Compile Include="Stats\PlayerStats.cs" />
-    <Compile Include="Stats\ServerStats.cs" />
+    <Compile Include="ServerAdvertise.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Database\IRepository\" />
-    <Folder Include="Database\Repository\" />
+    <ProjectReference Include="..\Kontur.GameStats.Server\Kontur.GameStats.Server.csproj">
+      <Project>{d0d79b41-39d6-496a-b74a-c8dfddf4d7b8}</Project>
+      <Name>Kontur.GameStats.Server</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets')" />
@@ -152,11 +101,4 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

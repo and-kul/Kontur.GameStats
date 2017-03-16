@@ -9,7 +9,7 @@ using Kontur.GameStats.Server.Models;
 
 namespace Kontur.GameStats.Server.StatisticsManagement
 {
-    class StatisticsProcessor
+    public class StatisticsProcessor
     {
         private static Thread statisticsThread;
 
@@ -79,6 +79,12 @@ namespace Kontur.GameStats.Server.StatisticsManagement
             return (double) (totalPlayers - position - 1) / (totalPlayers - 1) * 100;
         }
 
+        private static bool CanBeBestPlayer(Player player)
+        {
+            var statistics = player.Statistics;
+            return statistics.TotalMatchesPlayed >= BestPlayer.NeedTotalMatches && statistics.Deaths > 0;
+        }
+
 
         private static void UpdatePlayersStatistics(Match match, GameStatsDbContext db)
         {
@@ -103,6 +109,9 @@ namespace Kontur.GameStats.Server.StatisticsManagement
 
                 playerStatistics.Kills += score.Kills;
                 playerStatistics.Deaths += score.Deaths;
+
+                if (CanBeBestPlayer(player))
+                    DatabaseHelper.FindOrAddBestPlayer(player, db);
 
                 var playerServerStats = DatabaseHelper.FindOrAddPlayerServerStats(player, server, db);
                 playerServerStats.MatchesPlayed++;

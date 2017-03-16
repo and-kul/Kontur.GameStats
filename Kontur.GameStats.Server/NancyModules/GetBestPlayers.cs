@@ -6,9 +6,6 @@ namespace Kontur.GameStats.Server.NancyModules
 {
     public class GetBestPlayers : NancyModule
     {
-        private const int NeedMatches = 10;
-
-
         public GetBestPlayers()
         {
             Get["/reports/best-players/{count?5}"] = parameters =>
@@ -22,20 +19,16 @@ namespace Kontur.GameStats.Server.NancyModules
                 using (var db = new GameStatsDbContext())
                 {
                     var inf = double.PositiveInfinity;
-                    
+
                     // todo чекнуть на производительность
                     var bestPlayers =
-                        db.PlayersStatistics
-                            .Where(
-                                ps =>
-                                    ps.TotalMatchesPlayed >= NeedMatches &&
-                                    ps.KillToDeathRatio < inf)
-                            .OrderByDescending(ps => ps.KillToDeathRatio)
+                        db.BestPlayers
+                            .OrderByDescending(best => best.KillToDeathRatio)
                             .Take(count)
-                            .Select(ps => new
+                            .Select(best => new
                             {
-                                Name = ps.Player.NameLowerCase,
-                                KillToDeathRatio = ps.KillToDeathRatio
+                                Name = best.Player.NameLowerCase,
+                                KillToDeathRatio = best.KillToDeathRatio
                             })
                             .ToArray();
 

@@ -7,8 +7,10 @@ namespace Kontur.GameStats.Server.Database
 {
     public class GameStatsDbContext : DbContext
     {
+        public static bool UseTestConnectionString = false;
+
         public GameStatsDbContext()
-            : base("DefaultConnection")
+            : base(UseTestConnectionString ? "TestConnection" : "DefaultConnection")
         {
         }
 
@@ -34,10 +36,14 @@ namespace Kontur.GameStats.Server.Database
                     m.MapRightKey("GameModeId");
                 });
 
+            modelBuilder.Entity<BestPlayer>()
+                .HasRequired(best => best.Player)
+                .WithOptional()
+                .WillCascadeOnDelete();
 
             modelBuilder.Conventions.Remove<ForeignKeyIndexConvention>();
 
-            var sqliteDbInitializer = new SqliteDropCreateDatabaseWhenModelChanges<GameStatsDbContext>(modelBuilder);
+            var sqliteDbInitializer = new SqliteCreateDatabaseIfNotExists<GameStatsDbContext>(modelBuilder);
             System.Data.Entity.Database.SetInitializer(sqliteDbInitializer);
         }
 
@@ -60,5 +66,6 @@ namespace Kontur.GameStats.Server.Database
         public DbSet<DateServerStats> DateServerStats { get; set; }
         public DbSet<DatePlayerStats> DatePlayerStats { get; set; }
 
+        public DbSet<BestPlayer> BestPlayers { get; set; }
     }
 }

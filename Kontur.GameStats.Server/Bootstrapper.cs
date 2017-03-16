@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Linq;
-using Kontur.GameStats.Server.Info;
+using Kontur.GameStats.Server.StatisticsManagement;
 using Nancy;
 using Nancy.Bootstrapper;
-using Nancy.Json;
 using Nancy.TinyIoc;
 using Newtonsoft.Json;
 
@@ -23,6 +21,8 @@ namespace Kontur.GameStats.Server
 
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
+            StatisticsProcessor.Start();
+            
             pipelines.BeforeRequest += ctx =>
             {
                 ctx.Request.Headers.Accept = new[] {Tuple.Create("application/json", 1m)};

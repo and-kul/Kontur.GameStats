@@ -31,7 +31,6 @@ namespace Kontur.GameStats.Server
 
         private static void RunServer(Options options)
         {
-            StatisticsProcessor.Start();
             using (WebApp.Start<Startup>(options.Prefix))
             {
                 Console.WriteLine($"Running on {options.Prefix}");
