@@ -6,7 +6,6 @@ namespace Kontur.GameStats.Server.Models
     [Table("BestPlayers")]
     public class BestPlayer
     {
-        // todo изменить
         public const int NeedTotalMatches = 10;
 
         [Key, ForeignKey("Player")]

@@ -13,7 +13,7 @@ namespace Kontur.GameStats.Server.Data.Persistence.Repositories
         public PlayerServerStats FindOrAddPlayerServerStats(Player player, Models.Server server)
         {
             var playerServerStats =
-                Db.PlayersServers.FirstOrDefault(ps => ps.PlayerId == player.Id && ps.ServerId == server.Id);
+                Db.PlayerServerStats.FirstOrDefault(ps => ps.PlayerId == player.Id && ps.ServerId == server.Id);
 
             if (playerServerStats != null) return playerServerStats;
 
@@ -24,9 +24,19 @@ namespace Kontur.GameStats.Server.Data.Persistence.Repositories
                 MatchesPlayed = 0
             };
 
-            Db.PlayersServers.Add(playerServerStats);
+            Db.PlayerServerStats.Add(playerServerStats);
             
             return playerServerStats;
         }
+
+        public Models.Server GetFavoriteServerForPlayer(Player player)
+        {
+            return Db.PlayerServerStats
+                .Where(ps => ps.PlayerId == player.Id)
+                .OrderByDescending(ps => ps.MatchesPlayed)
+                .First()
+                .Server;
+        }
+
     }
 }

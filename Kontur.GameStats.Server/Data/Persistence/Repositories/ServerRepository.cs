@@ -2,9 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using Kontur.GameStats.Server.Data.Core.Repositories;
-using Kontur.GameStats.Server.Info;
 using Kontur.GameStats.Server.Models;
-using Kontur.GameStats.Server.Stats;
 
 namespace Kontur.GameStats.Server.Data.Persistence.Repositories
 {
@@ -51,33 +49,6 @@ namespace Kontur.GameStats.Server.Data.Persistence.Repositories
             
         }
 
-        //public ServerInfo GetServerInfo(Models.Server server)
-        //{
-        //    if (server == null)
-        //        return null;
-
-        //    var serverInfo = new ServerInfo
-        //    {
-        //        Endpoint = server.Endpoint,
-        //        Name = server.Name,
-        //        GameModes = server.AvailableGameModes.Select(gm => gm.Name).ToArray()
-        //    };
-
-        //    return serverInfo;
-        //}
-
-        //public IEnumerable<ServerInfo> GetAllServerInfos()
-        //{
-        //    var result = new List<ServerInfo>();
-
-        //    foreach (var server in Db.Servers)
-        //    {
-        //        result.Add(GetServerInfo(server));
-        //    }
-
-        //    return result;
-        //}
         
-
     }
 }

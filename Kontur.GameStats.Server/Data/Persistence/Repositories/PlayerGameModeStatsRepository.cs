@@ -13,7 +13,7 @@ namespace Kontur.GameStats.Server.Data.Persistence.Repositories
         public PlayerGameModeStats FindOrAddPlayerGameModeStats(Player player, GameMode gameMode)
         {
             var playerGameModeStats =
-                Db.PlayersGameModes.FirstOrDefault(pgm => pgm.PlayerId == player.Id && pgm.GameModeId == gameMode.Id);
+                Db.PlayerGameModeStats.FirstOrDefault(pgm => pgm.PlayerId == player.Id && pgm.GameModeId == gameMode.Id);
 
             if (playerGameModeStats != null) return playerGameModeStats;
 
@@ -24,9 +24,18 @@ namespace Kontur.GameStats.Server.Data.Persistence.Repositories
                 MatchesPlayed = 0
             };
 
-            Db.PlayersGameModes.Add(playerGameModeStats);
+            Db.PlayerGameModeStats.Add(playerGameModeStats);
           
             return playerGameModeStats;
+        }
+        
+        public GameMode GetFavoriteGameModeForPlayer(Player player)
+        {
+            return Db.PlayerGameModeStats
+                .Where(gm => gm.PlayerId == player.Id)
+                .OrderByDescending(gm => gm.MatchesPlayed)
+                .First()
+                .GameMode;
         }
     }
 }

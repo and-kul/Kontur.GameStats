@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Kontur.GameStats.Server.Data.Core.Repositories;
 using Kontur.GameStats.Server.Models;
+using Kontur.GameStats.Server.Stats;
 
 namespace Kontur.GameStats.Server.Data.Persistence.Repositories
 {
@@ -13,7 +15,7 @@ namespace Kontur.GameStats.Server.Data.Persistence.Repositories
         public ServerGameModeStats FindOrAddServerGameModeStats(Models.Server server, GameMode gameMode)
         {
             var serverGameMode =
-                Db.ServersGameModes.FirstOrDefault(sgm => sgm.ServerId == server.Id && sgm.GameModeId == gameMode.Id);
+                Db.ServerGameModeStats.FirstOrDefault(sgm => sgm.ServerId == server.Id && sgm.GameModeId == gameMode.Id);
 
             if (serverGameMode != null) return serverGameMode;
 
@@ -24,9 +26,19 @@ namespace Kontur.GameStats.Server.Data.Persistence.Repositories
                 MatchesPlayed = 0
             };
 
-            Db.ServersGameModes.Add(serverGameMode);
+            Db.ServerGameModeStats.Add(serverGameMode);
             
             return serverGameMode;
         }
+
+        public IEnumerable<ServerGameModeStats> FindTopGameModesForServer(Models.Server server, int count)
+        {
+            return Db.ServerGameModeStats
+                .Where(gm => gm.ServerId == server.Id)
+                .OrderByDescending(gm => gm.MatchesPlayed)
+                .Take(ServerStats.TopGameModesCount)
+                .ToList();
+        }
+
     }
 }

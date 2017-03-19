@@ -12,7 +12,7 @@ namespace Kontur.GameStats.Server.Data.Persistence
         public GameStatsDbContext()
             : base(UseTestConnectionString ? "TestConnection" : "DefaultConnection")
         {
-            Database.Log = System.Console.WriteLine;
+
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -54,12 +54,12 @@ namespace Kontur.GameStats.Server.Data.Persistence
         public DbSet<Map> Maps { get; set; }
 
         public DbSet<PlayerStatistics> PlayersStatistics { get; set; }
-        public DbSet<PlayerGameModeStats> PlayersGameModes { get; set; }
-        public DbSet<PlayerServerStats> PlayersServers { get; set; }
+        public DbSet<PlayerGameModeStats> PlayerGameModeStats { get; set; }
+        public DbSet<PlayerServerStats> PlayerServerStats { get; set; }
 
         public DbSet<ServerStatistics> ServersStatistics { get; set; }
-        public DbSet<ServerGameModeStats> ServersGameModes { get; set; }
-        public DbSet<ServerMapStats> ServersMaps { get; set; }
+        public DbSet<ServerGameModeStats> ServerGameModeStats { get; set; }
+        public DbSet<ServerMapStats> ServerMapStats { get; set; }
 
         public DbSet<Match> Matches { get; set; }
         public DbSet<Score> Scores { get; set; }

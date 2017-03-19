@@ -10,9 +10,7 @@ namespace Kontur.GameStats.Server.Nancy
 {
     public class Bootstrapper : DefaultNancyBootstrapper
     {
-        //protected override DiagnosticsConfiguration DiagnosticsConfiguration
-        //    => new DiagnosticsConfiguration {Password = @"Innopolis"};
-
+        
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);
@@ -32,9 +30,6 @@ namespace Kontur.GameStats.Server.Nancy
                 return null;
             };
             
-
-            //StaticConfiguration.EnableRequestTracing = true;
-            //StaticConfiguration.DisableErrorTraces = false;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Kontur.GameStats.Server.Data.Core.Repositories;
 using Kontur.GameStats.Server.Info;
 using Kontur.GameStats.Server.Models;

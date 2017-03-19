@@ -102,9 +102,8 @@ namespace Kontur.GameStats.Server.Data.Persistence
             var statistics = server.Statistics;
 
             serverStats.TotalMatchesPlayed = statistics.TotalMatchesPlayed;
-
-            // todo производительность
-            var mostPopularDay = statistics.WorkingDays.OrderByDescending(day => day.MatchesPlayed).FirstOrDefault();
+            
+            var mostPopularDay = DateServerStats.GetMostPopularDayForServer(server);
             if (mostPopularDay != null)
                 serverStats.MaximumMatchesPerDay = mostPopularDay.MatchesPlayed;
 
@@ -114,22 +113,13 @@ namespace Kontur.GameStats.Server.Data.Persistence
             serverStats.AverageMatchesPerDay = (double) serverStats.TotalMatchesPlayed / totalDays;
 
             serverStats.MaximumPopulation = statistics.MaximumPopulation;
+            serverStats.AveragePopulation = (double) statistics.SumOfPopulations / serverStats.TotalMatchesPlayed;
 
-            serverStats.AveragePopulation = (double) statistics.SumOfPopulations / totalDays;
-
-            // todo производительность
-            serverStats.Top5GameModes =
-                statistics.GameModesStats
-                    .OrderByDescending(gm => gm.MatchesPlayed)
-                    .Take(ServerStats.TopGameModesCount)
+            serverStats.Top5GameModes = ServerGameModeStats.FindTopGameModesForServer(server, ServerStats.TopGameModesCount)
                     .Select(gm => gm.GameMode.Name)
                     .ToArray();
 
-            // todo производительность
-            serverStats.Top5Maps =
-                statistics.MapsStats
-                    .OrderByDescending(map => map.MatchesPlayed)
-                    .Take(ServerStats.TopMapsCount)
+            serverStats.Top5Maps = ServerMapStats.FindTopMapsForServer(server, ServerStats.TopMapsCount)
                     .Select(map => map.Map.Name)
                     .ToArray();
 
@@ -145,29 +135,17 @@ namespace Kontur.GameStats.Server.Data.Persistence
             playerStats.TotalMatchesPlayed = statistics.TotalMatchesPlayed;
             playerStats.TotalMatchesWon = statistics.TotalMatchesWon;
 
-            // todo производительность
-            playerStats.FavoriteServer =
-                statistics.ServersStats
-                    .OrderByDescending(server => server.MatchesPlayed)
-                    .First().Server.Name;
-
+            playerStats.FavoriteServer = PlayerServerStats.GetFavoriteServerForPlayer(player).Endpoint;
             playerStats.UniqueServers = statistics.ServersStats.Count;
-
-            // todo производительность
-            playerStats.FavoriteGameMode = statistics.GameModesStats
-                .OrderByDescending(gm => gm.MatchesPlayed)
-                .First().GameMode.Name;
+            
+            playerStats.FavoriteGameMode = PlayerGameModeStats.GetFavoriteGameModeForPlayer(player).Name;
 
             playerStats.AverageScoreboardPercent = statistics.SumOfScoreboardPercents / playerStats.TotalMatchesPlayed;
-
-            // todo производительность
-            playerStats.MaximumMatchesPerDay = statistics.GameDays
-                .OrderByDescending(day => day.MatchesPlayed)
-                .First().MatchesPlayed;
+            
+            playerStats.MaximumMatchesPerDay = DatePlayerStats.GetMostPopularDayForPlayer(player).MatchesPlayed;
 
             var totalDays = TimeHelper.GetUtcNumberOfDaysBetween(statistics.FirstMatchTimestamp,
                 Matches.GetLastMatchTimestampAmongAllServers());
-
 
             playerStats.AverageMatchesPerDay = (double) playerStats.TotalMatchesPlayed / totalDays;
 

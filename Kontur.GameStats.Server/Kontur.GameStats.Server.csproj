@@ -109,7 +109,6 @@
     <Compile Include="Data\Core\Repositories\IServerMapStatsRepository.cs" />
     <Compile Include="Data\Core\Repositories\IServerRepository.cs" />
     <Compile Include="Data\Core\Repositories\IServerStatisticsRepository.cs" />
-    <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\Core\Repositories\IPlayerRepository.cs" />
     <Compile Include="Data\Core\Repositories\IRepository.cs" />
     <Compile Include="Data\Persistence\Repositories\BestPlayerRepository.cs" />

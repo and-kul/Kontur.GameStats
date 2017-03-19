@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Kontur.GameStats.Server.Info;
 using Kontur.GameStats.Server.Models;
 
 namespace Kontur.GameStats.Server.Data.Core.Repositories
@@ -10,10 +9,7 @@ namespace Kontur.GameStats.Server.Data.Core.Repositories
 
         Models.Server AddNewServer(string endpoint, string name, IEnumerable<GameMode> availableGameModes);
         void UpdateExistingServer(Models.Server server, string newName, IEnumerable<GameMode> newAvailableGameModes);
-
-        //ServerInfo GetServerInfo(Models.Server server);
-        //IEnumerable<ServerInfo> GetAllServerInfos();
-
+        
     }
 
 }

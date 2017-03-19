@@ -30,5 +30,15 @@ namespace Kontur.GameStats.Server.Data.Persistence.Repositories
             
             return datePlayerStats;
         }
+
+
+        public DatePlayerStats GetMostPopularDayForPlayer(Player player)
+        {
+            return Db.DatePlayerStats.Where(dp => dp.PlayerId == player.Id)
+                .OrderByDescending(dp => dp.MatchesPlayed)
+                .First();
+        }
+
+
     }
 }

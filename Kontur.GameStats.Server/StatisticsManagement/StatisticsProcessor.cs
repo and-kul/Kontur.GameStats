@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using Kontur.GameStats.Server.Data.Core;
@@ -63,8 +64,7 @@ namespace Kontur.GameStats.Server.StatisticsManagement
             unitOfWork.DateServerStats.MarkAsModified(dateServerStats);
 
             unitOfWork.ServerStatistics.MarkAsModified(serverStatistics);
-
-            //unitOfWork.Save();
+            
         }
 
 
@@ -126,8 +126,7 @@ namespace Kontur.GameStats.Server.StatisticsManagement
                 unitOfWork.DatePlayerStats.MarkAsModified(datePlayerStats);
 
                 unitOfWork.PlayerStatistics.MarkAsModified(playerStatistics);
-
-                //unitOfWork.Save();
+                
             }
         }
 
@@ -140,15 +139,24 @@ namespace Kontur.GameStats.Server.StatisticsManagement
 
                 using (var unitOfWork = new UnitOfWork())
                 {
-                    var match = unitOfWork.Matches.FindById(matchId);
+                    try
+                    {
+                        var match = unitOfWork.Matches.FindById(matchId);
+                        
+                        if (match.IsProcessedForStatistics) continue;
 
-                    UpdateServerStatistics(match, unitOfWork);
-                    UpdatePlayersStatistics(match, unitOfWork);
+                        UpdateServerStatistics(match, unitOfWork);
+                        UpdatePlayersStatistics(match, unitOfWork);
 
-                    match.IsProcessedForStatistics = true;
-                    unitOfWork.Matches.MarkAsModified(match);
+                        match.IsProcessedForStatistics = true;
+                        unitOfWork.Matches.MarkAsModified(match);
 
-                    unitOfWork.Save();
+                        unitOfWork.Save();
+                    }
+                    catch (DataException)
+                    {
+                        MatchQueue.Add(matchId);
+                    }
                 }
             }
         }

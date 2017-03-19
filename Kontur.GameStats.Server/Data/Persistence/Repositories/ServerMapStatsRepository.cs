@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Kontur.GameStats.Server.Data.Core.Repositories;
 using Kontur.GameStats.Server.Models;
+using Kontur.GameStats.Server.Stats;
 
 namespace Kontur.GameStats.Server.Data.Persistence.Repositories
 {
@@ -12,7 +14,7 @@ namespace Kontur.GameStats.Server.Data.Persistence.Repositories
 
         public ServerMapStats FindOrAddServerMapStats(Models.Server server, Map map)
         {
-            var serverMap = Db.ServersMaps.FirstOrDefault(sm => sm.ServerId == server.Id && sm.MapId == map.Id);
+            var serverMap = Db.ServerMapStats.FirstOrDefault(sm => sm.ServerId == server.Id && sm.MapId == map.Id);
 
             if (serverMap != null) return serverMap;
 
@@ -23,8 +25,19 @@ namespace Kontur.GameStats.Server.Data.Persistence.Repositories
                 MatchesPlayed = 0
             };
 
-            Db.ServersMaps.Add(serverMap);
+            Db.ServerMapStats.Add(serverMap);
             return serverMap;
         }
+
+
+        public IEnumerable<ServerMapStats> FindTopMapsForServer(Models.Server server, int count)
+        {
+            return Db.ServerMapStats
+                .Where(sm => sm.ServerId == server.Id)
+                .OrderByDescending(sm => sm.MatchesPlayed)
+                .Take(ServerStats.TopMapsCount)
+                .ToList();
+        }
+
     }
 }
