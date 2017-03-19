@@ -1,5 +1,5 @@
 ﻿using System;
-using Kontur.GameStats.Server.Database;
+using Kontur.GameStats.Server.Data.Persistence;
 using Kontur.GameStats.Server.Info;
 using Nancy;
 
@@ -13,22 +13,22 @@ namespace Kontur.GameStats.Server.NancyModules
             {
                 string endpoint = parameters.endpoint;
                 DateTime timestamp = parameters.timestamp;
-                
-                using (var db = new GameStatsDbContext())
+
+                using (var unitOfWork = new UnitOfWork())
                 {
-                    var server = DatabaseHelper.FindServer(endpoint, db);
+                    var server = unitOfWork.Servers.FindServer(endpoint);
 
                     if (server == null)
                         return HttpStatusCode.NotFound;
 
-                    var match = DatabaseHelper.FindMatch(server, timestamp, db);
+                    var match = unitOfWork.Matches.FindMatch(server, timestamp);
 
                     if (match == null)
                         return HttpStatusCode.NotFound;
-                    
+
                     return new MatchInfo(match);
                 }
-
+                
             };
         }
     }

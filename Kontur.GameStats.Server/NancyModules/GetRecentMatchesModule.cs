@@ -1,13 +1,13 @@
 ﻿using System.Linq;
-using Kontur.GameStats.Server.Database;
+using Kontur.GameStats.Server.Data.Persistence;
 using Kontur.GameStats.Server.Reports;
 using Nancy;
 
 namespace Kontur.GameStats.Server.NancyModules
 {
-    public class GetRecentMatches: NancyModule
+    public class GetRecentMatchesModule: NancyModule
     {
-        public GetRecentMatches()
+        public GetRecentMatchesModule()
         {
             Get["/reports/recent-matches/{count?5}"] = parameters =>
             {
@@ -16,18 +16,16 @@ namespace Kontur.GameStats.Server.NancyModules
                 if (count < 0) count = 0;
                 if (count > 50) count = 50;
 
-                
-                using (var db = new GameStatsDbContext())
+                using (var unitOfWork = new UnitOfWork())
                 {
                     var recentMatches =
-                        db.Matches.OrderByDescending(match => match.Timestamp)
-                            .Take(count)
-                            .AsEnumerable()
-                            .Select(match => new RecentMatch(match)).ToArray();
+                        unitOfWork.Matches.GetRecentMatches(count)
+                        .Select(match => new RecentMatch(match))
+                        .ToArray();
 
                     return recentMatches;
                 }
-
+                
             };
         }
 

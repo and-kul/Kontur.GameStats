@@ -1,27 +1,26 @@
 ﻿using System.Net;
-using Kontur.GameStats.Server.Database;
-using Kontur.GameStats.Server.Stats;
+using Kontur.GameStats.Server.Data.Persistence;
 using Nancy;
 using HttpStatusCode = Nancy.HttpStatusCode;
 
 namespace Kontur.GameStats.Server.NancyModules
 {
-    public class GetPlayerStats : NancyModule
+    public class GetPlayerStatsModule : NancyModule
     {
-        public GetPlayerStats()
+        public GetPlayerStatsModule()
         {
             Get["/players/{name}/stats"] = parameters =>
             {
                 var name = WebUtility.UrlDecode((string)parameters.name);
 
-                using (var db = new GameStatsDbContext())
+                using (var unitOfWork = new UnitOfWork())
                 {
-                    var player = DatabaseHelper.FindPlayer(name, db);
+                    var player = unitOfWork.Players.FindPlayer(name);
 
                     if (player == null)
                         return HttpStatusCode.NotFound;
 
-                    return new PlayerStats(player);
+                    return unitOfWork.GetPlayerStats(player);
                 }
 
             };

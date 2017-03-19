@@ -16,8 +16,6 @@ namespace Kontur.GameStats.Server.Models
         public virtual ICollection<GameMode> AvailableGameModes { get; set; } = new List<GameMode>();
 
         public virtual ServerStatistics Statistics { get; set; }
-
-        //public DateTime? FirstMatchDay { get; set; }
-
+        
     }
 }

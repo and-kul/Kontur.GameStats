@@ -1,11 +1,12 @@
 ﻿using System;
+using Kontur.GameStats.Server.JSON;
 using Kontur.GameStats.Server.StatisticsManagement;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.TinyIoc;
 using Newtonsoft.Json;
 
-namespace Kontur.GameStats.Server
+namespace Kontur.GameStats.Server.Nancy
 {
     public class Bootstrapper : DefaultNancyBootstrapper
     {

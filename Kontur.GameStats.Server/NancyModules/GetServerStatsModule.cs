@@ -1,27 +1,26 @@
-﻿using Kontur.GameStats.Server.Database;
-using Kontur.GameStats.Server.Stats;
+﻿using Kontur.GameStats.Server.Data.Persistence;
 using Nancy;
 
 namespace Kontur.GameStats.Server.NancyModules
 {
-    public class GetServerStats : NancyModule
+    public class GetServerStatsModule : NancyModule
     {
-        public GetServerStats()
+        public GetServerStatsModule()
         {
             Get["/servers/{endpoint}/stats"] = parameters =>
             {
                 var endpoint = parameters.endpoint;
 
-                using (var db = new GameStatsDbContext())
+                using (var unitOfWork = new UnitOfWork())
                 {
-                    var server = DatabaseHelper.FindServer(endpoint, db);
+                    var server = unitOfWork.Servers.FindServer(endpoint);
 
                     if (server == null)
                         return HttpStatusCode.NotFound;
 
-                    return new ServerStats(server);
+                    return unitOfWork.GetServerStats(server);
                 }
-
+                
             };
         }
     }

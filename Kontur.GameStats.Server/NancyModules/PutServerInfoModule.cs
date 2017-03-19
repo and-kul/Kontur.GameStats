@@ -1,4 +1,4 @@
-﻿using Kontur.GameStats.Server.Database;
+﻿using Kontur.GameStats.Server.Data.Persistence;
 using Kontur.GameStats.Server.Info;
 using Nancy;
 using Nancy.ModelBinding;
@@ -13,9 +13,10 @@ namespace Kontur.GameStats.Server.NancyModules
             {
                 var serverInfo = this.Bind<ServerInfo>();
 
-                using (var db = new GameStatsDbContext())
+                using (var unitOfWork = new UnitOfWork())
                 {
-                    DatabaseHelper.AddOrUpdateServer(serverInfo, db);
+                    unitOfWork.AddOrUpdateServer(serverInfo);
+                    unitOfWork.Save();
                 }
                 
                 return HttpStatusCode.OK;

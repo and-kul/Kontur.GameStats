@@ -1,9 +1,8 @@
-﻿using System.CodeDom.Compiler;
-using System.Data;
-using System.IO;
+﻿using System.IO;
 using Kontur.GameStats.Server;
-using Kontur.GameStats.Server.Database;
+using Kontur.GameStats.Server.Data.Persistence;
 using Kontur.GameStats.Server.Info;
+using Kontur.GameStats.Server.Nancy;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Testing;

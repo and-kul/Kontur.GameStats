@@ -25,7 +25,6 @@ namespace Kontur.GameStats.Server.Info
 
             Scoreboard = match.Scoreboard
                 .OrderBy(score => score.Position)
-                .AsEnumerable()
                 .Select(score => new ScoreInfo(score))
                 .ToArray();
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using Fclp;
-using Kontur.GameStats.Server.Database;
 using Kontur.GameStats.Server.StatisticsManagement;
 using Microsoft.Owin.Hosting;
 

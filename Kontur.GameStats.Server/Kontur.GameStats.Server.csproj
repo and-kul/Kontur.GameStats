@@ -93,9 +93,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bootstrapper.cs" />
-    <Compile Include="CamelCaseJsonSerializer.cs" />
-    <Compile Include="Database\DatabaseHelper.cs" />
+    <Compile Include="Nancy\Bootstrapper.cs" />
+    <Compile Include="JSON\CamelCaseJsonSerializer.cs" />
+    <Compile Include="Data\Core\IUnitOfWork.cs" />
+    <Compile Include="Data\Core\Repositories\IBestPlayerRepository.cs" />
+    <Compile Include="Data\Core\Repositories\IDatePlayerStatsRepository.cs" />
+    <Compile Include="Data\Core\Repositories\IDateServerStatsRepository.cs" />
+    <Compile Include="Data\Core\Repositories\IGameModeRepository.cs" />
+    <Compile Include="Data\Core\Repositories\IMapRepository.cs" />
+    <Compile Include="Data\Core\Repositories\IMatchRepository.cs" />
+    <Compile Include="Data\Core\Repositories\IPlayerGameModeStatsRepository.cs" />
+    <Compile Include="Data\Core\Repositories\IPlayerServerStatsRepository.cs" />
+    <Compile Include="Data\Core\Repositories\IPlayerStatisticsRepository.cs" />
+    <Compile Include="Data\Core\Repositories\IServerGameModeStatsRepository.cs" />
+    <Compile Include="Data\Core\Repositories\IServerMapStatsRepository.cs" />
+    <Compile Include="Data\Core\Repositories\IServerRepository.cs" />
+    <Compile Include="Data\Core\Repositories\IServerStatisticsRepository.cs" />
+    <Compile Include="Data\DatabaseHelper.cs" />
+    <Compile Include="Data\Core\Repositories\IPlayerRepository.cs" />
+    <Compile Include="Data\Core\Repositories\IRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\BestPlayerRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\DatePlayerStatsRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\DateServerStatsRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\GameModeRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\MapRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\MatchRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\PlayerGameModeStatsRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\PlayerRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\PlayerServerStatsRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\PlayerStatisticsRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\Repository.cs" />
+    <Compile Include="Data\Persistence\Repositories\ServerGameModeStatsRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\ServerMapStatsRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\ServerRepository.cs" />
+    <Compile Include="Data\Persistence\Repositories\ServerStatisticsRepository.cs" />
+    <Compile Include="Data\Persistence\UnitOfWork.cs" />
     <Compile Include="Helpers\TimeHelper.cs" />
     <Compile Include="Info\MatchInfo.cs" />
     <Compile Include="Info\ScoreInfo.cs" />
@@ -103,7 +135,7 @@
     <Compile Include="Models\DatePlayerStats.cs" />
     <Compile Include="Models\DateServerStats.cs" />
     <Compile Include="Models\GameMode.cs" />
-    <Compile Include="Database\GameStatsDbContext.cs" />
+    <Compile Include="Data\Persistence\GameStatsDbContext.cs" />
     <Compile Include="Models\Map.cs" />
     <Compile Include="Models\Match.cs" />
     <Compile Include="Models\Player.cs" />
@@ -116,13 +148,13 @@
     <Compile Include="Models\ServerMapStats.cs" />
     <Compile Include="Models\ServerStatistics.cs" />
     <Compile Include="NancyModules\GetAllServersInfoModule.cs" />
-    <Compile Include="NancyModules\GetBestPlayers.cs" />
+    <Compile Include="NancyModules\GetBestPlayersModule.cs" />
     <Compile Include="NancyModules\GetMatchInfoModule.cs" />
     <Compile Include="NancyModules\GetOneServerInfoModule.cs" />
-    <Compile Include="NancyModules\GetPlayerStats.cs" />
-    <Compile Include="NancyModules\GetPopularServers.cs" />
-    <Compile Include="NancyModules\GetRecentMatches.cs" />
-    <Compile Include="NancyModules\GetServerStats.cs" />
+    <Compile Include="NancyModules\GetPlayerStatsModule.cs" />
+    <Compile Include="NancyModules\GetPopularServersModule.cs" />
+    <Compile Include="NancyModules\GetRecentMatchesModule.cs" />
+    <Compile Include="NancyModules\GetServerStatsModule.cs" />
     <Compile Include="NancyModules\IndexModule.cs" />
     <Compile Include="NancyModules\PutMatchInfoModule.cs" />
     <Compile Include="NancyModules\PutServerInfoModule.cs" />
@@ -140,10 +172,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Database\IRepository\" />
-    <Folder Include="Database\Repository\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.104.0\build\net46\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

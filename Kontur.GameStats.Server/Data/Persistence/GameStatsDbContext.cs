@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using Kontur.GameStats.Server.Models;
 using SQLite.CodeFirst;
 
-namespace Kontur.GameStats.Server.Database
+namespace Kontur.GameStats.Server.Data.Persistence
 {
     public class GameStatsDbContext : DbContext
     {
@@ -12,6 +12,7 @@ namespace Kontur.GameStats.Server.Database
         public GameStatsDbContext()
             : base(UseTestConnectionString ? "TestConnection" : "DefaultConnection")
         {
+            Database.Log = System.Console.WriteLine;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using Kontur.GameStats.Server.Database;
+﻿using System.Linq;
+using Kontur.GameStats.Server.Data.Persistence;
 using Nancy;
 
 namespace Kontur.GameStats.Server.NancyModules
@@ -11,11 +10,9 @@ namespace Kontur.GameStats.Server.NancyModules
         {
             Get["/servers/info"] = _ =>
             {
-                using (var db = new GameStatsDbContext())
+                using (var unitOfWork = new UnitOfWork())
                 {
-                    //db.Database.Log = s => Console.WriteLine(s);
-
-                    return db.Servers.Select(s => new
+                    return unitOfWork.Servers.All().Select(s => new
                     {
                         Endpoint = s.Endpoint,
                         Info = new

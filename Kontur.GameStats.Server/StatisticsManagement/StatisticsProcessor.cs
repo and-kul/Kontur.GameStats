@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading;
-using Kontur.GameStats.Server.Database;
+using Kontur.GameStats.Server.Data.Core;
+using Kontur.GameStats.Server.Data.Persistence;
 using Kontur.GameStats.Server.Helpers;
 using Kontur.GameStats.Server.Models;
 
@@ -24,16 +24,16 @@ namespace Kontur.GameStats.Server.StatisticsManagement
 
         private static void LoadNotProcessedMatchesFromDatabase()
         {
-            using (var db = new GameStatsDbContext())
+            using (var unitOfWork = new UnitOfWork())
             {
-                foreach (var matchId in DatabaseHelper.GetNotProcessedMatchesIds(db))
+                foreach (var matchId in unitOfWork.Matches.GetNotProcessedMatchesIds())
                 {
                     AddMatchId(matchId);
                 }
             }
         }
 
-        private static void UpdateServerStatistics(Match match, GameStatsDbContext db)
+        private static void UpdateServerStatistics(Match match, IUnitOfWork unitOfWork)
         {
             var server = match.Server;
             var serverStatistics = server.Statistics;
@@ -47,27 +47,24 @@ namespace Kontur.GameStats.Server.StatisticsManagement
             if (serverStatistics.FirstMatchTimestamp == DateTime.MinValue)
                 serverStatistics.FirstMatchTimestamp = match.Timestamp;
 
-            //serverStatistics.LastMatchTimestamp = match.Timestamp;
-
-            var serverGameModeStats = DatabaseHelper.FindOrAddServerGameModeStats(server, match.GameMode,
-                db);
+            var serverGameModeStats = unitOfWork.ServerGameModeStats.FindOrAddServerGameModeStats(server, match.GameMode);
             serverGameModeStats.MatchesPlayed++;
-            db.Entry(serverGameModeStats).State = EntityState.Modified;
+            unitOfWork.ServerGameModeStats.MarkAsModified(serverGameModeStats);
 
-            var serverMapStats = DatabaseHelper.FindOrAddServerMapStats(server, match.Map, db);
+            var serverMapStats = unitOfWork.ServerMapStats.FindOrAddServerMapStats(server, match.Map);
             serverMapStats.MatchesPlayed++;
-            db.Entry(serverMapStats).State = EntityState.Modified;
+            unitOfWork.ServerMapStats.MarkAsModified(serverMapStats);
 
             int year, dayOfYear;
             TimeHelper.GetUtcYearAndDay(match.Timestamp, out year, out dayOfYear);
 
-            var dateServerStats = DatabaseHelper.FindOrAddDateServerStats(year, dayOfYear, server, db);
+            var dateServerStats = unitOfWork.DateServerStats.FindOrAddDateServerStats(year, dayOfYear, server);
             dateServerStats.MatchesPlayed++;
-            db.Entry(dateServerStats).State = EntityState.Modified;
+            unitOfWork.DateServerStats.MarkAsModified(dateServerStats);
 
-            db.Entry(serverStatistics).State = EntityState.Modified;
+            unitOfWork.ServerStatistics.MarkAsModified(serverStatistics);
 
-            db.SaveChanges();
+            //unitOfWork.Save();
         }
 
 
@@ -86,11 +83,11 @@ namespace Kontur.GameStats.Server.StatisticsManagement
         }
 
 
-        private static void UpdatePlayersStatistics(Match match, GameStatsDbContext db)
+        private static void UpdatePlayersStatistics(Match match, IUnitOfWork unitOfWork)
         {
             var server = match.Server;
             var gameMode = match.GameMode;
-            var scoreboard = match.Scoreboard.OrderBy(score => score.Position).ToArray();
+            var scoreboard = match.Scoreboard.OrderBy(score => score.Position);
 
             foreach (var score in scoreboard)
             {
@@ -100,7 +97,7 @@ namespace Kontur.GameStats.Server.StatisticsManagement
                 playerStatistics.TotalMatchesPlayed++;
                 if (score.Position == 0) playerStatistics.TotalMatchesWon++;
 
-                playerStatistics.SumOfScoreboardPercents += ScoreboardPercent(score.Position, scoreboard.Length);
+                playerStatistics.SumOfScoreboardPercents += ScoreboardPercent(score.Position, scoreboard.Count());
 
                 if (playerStatistics.FirstMatchTimestamp == DateTime.MinValue)
                     playerStatistics.FirstMatchTimestamp = match.Timestamp;
@@ -111,26 +108,26 @@ namespace Kontur.GameStats.Server.StatisticsManagement
                 playerStatistics.Deaths += score.Deaths;
 
                 if (CanBeBestPlayer(player))
-                    DatabaseHelper.FindOrAddBestPlayer(player, db);
+                    unitOfWork.BestPlayers.FindOrAddBestPlayer(player);
 
-                var playerServerStats = DatabaseHelper.FindOrAddPlayerServerStats(player, server, db);
+                var playerServerStats = unitOfWork.PlayerServerStats.FindOrAddPlayerServerStats(player, server);
                 playerServerStats.MatchesPlayed++;
-                db.Entry(playerServerStats).State = EntityState.Modified;
+                unitOfWork.PlayerServerStats.MarkAsModified(playerServerStats);
 
-                var playerGameModeStats = DatabaseHelper.FindOrAddPlayerGameModeStats(player, gameMode, db);
+                var playerGameModeStats = unitOfWork.PlayerGameModeStats.FindOrAddPlayerGameModeStats(player, gameMode);
                 playerGameModeStats.MatchesPlayed++;
-                db.Entry(playerGameModeStats).State = EntityState.Modified;
+                unitOfWork.PlayerGameModeStats.MarkAsModified(playerGameModeStats);
 
                 int year, dayOfYear;
                 TimeHelper.GetUtcYearAndDay(match.Timestamp, out year, out dayOfYear);
 
-                var datePlayerStats = DatabaseHelper.FindOrAddDatePlayerStats(year, dayOfYear, player, db);
+                var datePlayerStats = unitOfWork.DatePlayerStats.FindOrAddDatePlayerStats(year, dayOfYear, player);
                 datePlayerStats.MatchesPlayed++;
-                db.Entry(datePlayerStats).State = EntityState.Modified;
+                unitOfWork.DatePlayerStats.MarkAsModified(datePlayerStats);
 
-                db.Entry(playerStatistics).State = EntityState.Modified;
+                unitOfWork.PlayerStatistics.MarkAsModified(playerStatistics);
 
-                db.SaveChanges();
+                //unitOfWork.Save();
             }
         }
 
@@ -140,30 +137,18 @@ namespace Kontur.GameStats.Server.StatisticsManagement
             while (true)
             {
                 var matchId = MatchQueue.Take();
-                using (var db = new GameStatsDbContext())
+
+                using (var unitOfWork = new UnitOfWork())
                 {
-                    var match = db.Matches.Find(matchId);
+                    var match = unitOfWork.Matches.FindById(matchId);
 
-                    using (var transaction = db.Database.BeginTransaction())
-                    {
-                        try
-                        {
-                            UpdateServerStatistics(match, db);
+                    UpdateServerStatistics(match, unitOfWork);
+                    UpdatePlayersStatistics(match, unitOfWork);
 
-                            UpdatePlayersStatistics(match, db);
+                    match.IsProcessedForStatistics = true;
+                    unitOfWork.Matches.MarkAsModified(match);
 
-                            match.IsProcessedForStatistics = true;
-                            db.Entry(match).State = EntityState.Modified;
-
-                            db.SaveChanges();
-
-                            transaction.Commit();
-                        }
-                        catch (Exception)
-                        {
-                            transaction.Rollback();
-                        }
-                    }
+                    unitOfWork.Save();
                 }
             }
         }

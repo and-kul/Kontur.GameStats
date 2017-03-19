@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Kontur.GameStats.Server
+namespace Kontur.GameStats.Server.JSON
 {
     public class CamelCaseJsonSerializer : JsonSerializer
     {
