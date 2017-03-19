@@ -1,9 +1,6 @@
-﻿using Kontur.GameStats.Server;
-using Kontur.GameStats.Server.Info;
-using Kontur.GameStats.Server.Nancy;
+﻿using Kontur.GameStats.Server.Nancy;
 using Nancy;
 using Nancy.Testing;
-using Nancy.ViewEngines;
 using NUnit.Framework;
 
 namespace Tests

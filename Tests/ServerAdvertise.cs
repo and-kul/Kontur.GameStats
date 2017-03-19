@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using Kontur.GameStats.Server;
 using Kontur.GameStats.Server.Data.Persistence;
 using Kontur.GameStats.Server.Info;
 using Kontur.GameStats.Server.Nancy;
